@@ -2,10 +2,37 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Plat extends Model
 {
     use HasFactory;
+
+    protected $fillable = 
+    [
+        'nom',
+        'contenue',
+        'description',
+        'image',
+        'prix',
+        'id_categorie',
+    ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function ventes()
+    {
+        return $this->belongsToMany(Vente::class);
+    }
+
+    public function getRouteKey()
+    {
+        return "contenue";
+    }
+
 }
