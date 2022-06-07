@@ -8,6 +8,12 @@ use App\Http\Requests\UpdatePlatRequest;
 
 class PlatController extends Controller
 {
+    //creer
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,6 +22,9 @@ class PlatController extends Controller
     public function index()
     {
         //
+        return view('pages.plats.index')->with([
+            'plats' => Plat::paginate(8),
+        ]);
     }
 
     /**
@@ -26,6 +35,9 @@ class PlatController extends Controller
     public function create()
     {
         //
+        return view('pages.plats.create')-with([
+            'categories' => Category::all(),
+        ]);
     }
 
     /**
@@ -37,6 +49,34 @@ class PlatController extends Controller
     public function store(StorePlatRequest $request)
     {
         //
+        $request->validate($request, [
+            'namePlat' => 'required',
+            'descriptionPlat' => 'required',
+            'imagePlat' => ['required', 'image', 'mimes:png,jpeg,jpg', 'max:2048'],
+            'PricePlat' => ['required', 'numeric'],
+            'category_id' => ['required', 'numeric']
+
+        ]);
+
+        if($request->hasFile('imagePlat'))
+        {
+            $file = $request->namePlat;
+            $imageName = 'images/plats'.time().'_'.$file->getClientOriginalName();
+            $file->move(public_path('images/plat'), $imageName);
+            
+            Plat::create([
+                'namePlat' => $request->namePlat,
+                'descriptionPlat' => $request->descriptionPlat,
+                'PricePlat' => $request->PricePlat,
+                'category_id' => $request->category_id,
+                'imagePlat' => $imageName
+            ]);
+        }
+        //$title = $request->$title;
+
+        return redirect()
+                ->route('pages.plats.index')
+                ->with('success', 'plats ajouté avec succès dans la table');
     }
 
     /**
@@ -48,6 +88,9 @@ class PlatController extends Controller
     public function show(Plat $plat)
     {
         //
+        return view('pages.plats.show')->with([
+            'plat' => $plat,
+        ]);
     }
 
     /**
@@ -59,6 +102,9 @@ class PlatController extends Controller
     public function edit(Plat $plat)
     {
         //
+        return view('pages.plats.edit')->with([
+            'plat' => $plat,
+        ]);
     }
 
     /**
@@ -71,6 +117,35 @@ class PlatController extends Controller
     public function update(UpdatePlatRequest $request, Plat $plat)
     {
         //
+        $request->validate($request, [
+            'namePlat' => 'required',
+            'descriptionPlat' => 'required',
+            'imagePlat' => ['image', 'mimes:png,jpeg,jpg', 'max:2048'],
+            'PricePlat' => ['required', 'numeric'],
+            'category_id' => ['required', 'numeric']
+
+        ]);
+
+        if($request->hasFile('imagePlat'))
+        {
+            $file = $request->namePlat;
+            $imageName = 'images/plats'.time().'_'.$file->getClientOriginalName();
+            $file->move(public_path('images/plat'), $imageName);
+            $plat->imagePlat = $imageName;
+        }
+            $plat::update([
+                'namePlat' => $request->namePlat,
+                'descriptionPlat' => $request->descriptionPlat,
+                'PricePlat' => $request->PricePlat,
+                'category_id' => $request->category_id,
+                'imagePlat' => $plat ->imagePlat
+            ]);
+
+            return redirect()
+            ->route('pages.plats.index')
+            ->with('success', 'plats mise à avec succès dans la table');
+
+        
     }
 
     /**
@@ -82,5 +157,9 @@ class PlatController extends Controller
     public function destroy(Plat $plat)
     {
         //
+        $plat->delete();
+        return redirect()
+                ->route('pages.plats.index')
+                ->with('success', 'plat supprimé avec succès');
     }
 }
