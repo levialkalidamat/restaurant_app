@@ -22,6 +22,12 @@ Route::get("/menu", function(){
     return view("pages.menu");
 })->name('base_menu');
 
+//Gestion 
+Route::ressource('categories', 'CategoryController')->name('base_categories');
+Route::ressource('plats', 'PlatController')->name('base_plats');
+Route::ressource('delivery', 'DeliveryController')->name('base_deliveries');
+Route::ressource('tables', 'TablesController')->name('base_tables');
+
 /*Route::get('/', function () {
     return view('welcome');
 });*/

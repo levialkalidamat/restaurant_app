@@ -8,6 +8,11 @@ use App\Http\Requests\UpdateCategoryRequest;
 
 class CategoryController extends Controller
 {
+    //creer
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +20,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.categories.index')->with([
+            'categories' => Category::paginate(8),
+        ]);
     }
 
     /**
@@ -25,7 +32,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.categories.create');
     }
 
     /**
@@ -36,7 +43,19 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        $request->validate($request, [
+            'nameCategory' => 'required',
+        ]);
+
+        //$title = $request->$title;
+
+        Category::create([
+            'nameCategory' => $request->nameCategory,
+        ]);
+
+        return redirect()
+                ->route('pages.categories.index')
+                ->with('success', 'catégories ajouté avec succès');
     }
 
     /**
@@ -47,7 +66,9 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        return view('pages.categories.show')->with([
+            'category' => $category,
+        ]);
     }
 
     /**
@@ -58,7 +79,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('pages.categories.edit')->with([
+            'category' => $category,
+        ]);
     }
 
     /**
@@ -70,7 +93,19 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $request->validate($request, [
+            'nameCategory' => 'required',
+        ]);
+
+        //$title = $request->$title;
+
+        $category->update([
+            'nameCategory' => $request->nameCategory,
+        ]);
+
+        return redirect()
+                ->route('pages.categories.index')
+                ->with('success', 'catégories modifié avec succès');
     }
 
     /**
@@ -81,6 +116,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()
+                ->route('pages.categories.index')
+                ->with('success', 'catégories supprimé avec succès');
     }
 }
