@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('ventes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_user');
             $table->integer('quantité');
             $table->decimal('prix', 8, 2);
             $table->decimal('total', 8, 2);

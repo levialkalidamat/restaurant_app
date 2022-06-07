@@ -2,13 +2,12 @@
 
 namespace Database\Factories;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Delivery>
  */
-class CategoryFactory extends Factory
+class DeliveryFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,7 +17,8 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'nameCategory' => $this->faker->word,
+            'nameDelivery' => $this->faker->name,
+            'addressDelivery' => $this->faker->address
         ];
     }
 }

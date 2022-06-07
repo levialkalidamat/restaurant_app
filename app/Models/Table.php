@@ -2,27 +2,19 @@
 
 namespace App\Models;
 
-use App\Models\Category;
+use App\Models\Vente;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Plat extends Model
+class Table extends Model
 {
     use HasFactory;
 
     protected $fillable = 
     [
-        'namePlat',
-        'descriptionPlat',
-        'imagePlat',
-        'pricePlat',
-        'category_id',
+        'nameTable',
+        'statusTable',
     ];
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
 
     public function ventes()
     {
@@ -31,7 +23,6 @@ class Plat extends Model
 
     public function getRouteKey()
     {
-        return "contenue";
+        return 'contenue';
     }
-
 }

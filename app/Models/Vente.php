@@ -13,7 +13,6 @@ class Vente extends Model
     //
     protected $fillable = 
     [
-        'id_user',
         'quantité',
         'prix',
         'total',
