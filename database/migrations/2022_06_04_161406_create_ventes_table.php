@@ -15,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('ventes', function (Blueprint $table) {
             $table->id();
-            $table->integer('quantité');
-            $table->decimal('prix', 8, 2);
-            $table->decimal('total', 8, 2);
-            $table->decimal('change', 8, 2)->default(0);
-            $table->string('type_payment')->default('cash');
-            $table->string('status_payment')->default('payé');
+            $table->unsignedBigInteger('idDelivery');
+            $table->integer('quantityVente');
+            $table->decimal('priceVente', 8, 2);
+            $table->decimal('totalVente', 8, 2);
+            $table->decimal('changeVente', 8, 2)->default(0);
+            $table->string('typePaymentVente')->default('cash');
+            $table->string('statusPaymentVente')->default('payé');
             $table->timestamps();
         });
     }
