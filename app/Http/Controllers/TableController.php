@@ -8,6 +8,13 @@ use App\Http\Requests\UpdateTableRequest;
 
 class TableController extends Controller
 {
+    
+    //creer
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,6 +23,9 @@ class TableController extends Controller
     public function index()
     {
         //
+        return view('pages.tables.index')->with([
+            'tables' => Table::paginate(8),
+        ]);
     }
 
     /**
@@ -26,6 +36,7 @@ class TableController extends Controller
     public function create()
     {
         //
+        return view('pages.tables.create');
     }
 
     /**
@@ -37,6 +48,21 @@ class TableController extends Controller
     public function store(StoreTableRequest $request)
     {
         //
+        $request->validate($request, [
+            'nameTable' => 'required',
+            'statusTable' => 'required|boolean',
+        ]);
+
+        //$title = $request->$title;
+
+        Table::create([
+            'nameTable' => $request->nameTable,
+            'statusTable' => $request->statusTable
+        ]);
+
+        return redirect()
+                ->route('pages.tables.index')
+                ->with('success', 'données ajouté avec succès dans la table');
     }
 
     /**
@@ -48,6 +74,9 @@ class TableController extends Controller
     public function show(Table $table)
     {
         //
+        return view('pages.tables.show')->with([
+            'table' => $table,
+        ]);
     }
 
     /**
@@ -59,6 +88,9 @@ class TableController extends Controller
     public function edit(Table $table)
     {
         //
+        return view('pages.tables.edit')->with([
+            'table' => $table,
+        ]);
     }
 
     /**
@@ -71,6 +103,21 @@ class TableController extends Controller
     public function update(UpdateTableRequest $request, Table $table)
     {
         //
+        $request->validate($request, [
+            'nameTable'  => 'required',
+            'statusTable' => 'required',
+        ]);
+
+        //$title = $request->$title;
+
+        $table->update([
+            'nameTable' => $request->nameTable,
+            'statusTable' => $request->statusTable,
+        ]);
+
+        return redirect()
+                ->route('pages.tables.index')
+                ->with('success', 'tables mise à jour avec succès');
     }
 
     /**
@@ -82,5 +129,9 @@ class TableController extends Controller
     public function destroy(Table $table)
     {
         //
+        $table->delete();
+        return redirect()
+                ->route('pages.tables.index')
+                ->with('success', 'table supprimé avec succès');
     }
 }

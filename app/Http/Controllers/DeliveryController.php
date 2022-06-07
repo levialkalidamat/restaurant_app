@@ -8,6 +8,12 @@ use App\Http\Requests\UpdateDeliveryRequest;
 
 class DeliveryController extends Controller
 {
+    //creer
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +21,9 @@ class DeliveryController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.deliveries.index')->with([
+            'deliveries' => Delivery::paginate(8),
+        ]);
     }
 
     /**
@@ -26,6 +34,7 @@ class DeliveryController extends Controller
     public function create()
     {
         //
+        return view('pages.deliveries.create');
     }
 
     /**
@@ -37,6 +46,21 @@ class DeliveryController extends Controller
     public function store(StoreDeliveryRequest $request)
     {
         //
+        $request->validate($request, [
+            'nameDelivery' => 'required',
+            'addressDelivery' => 'required',
+        ]);
+
+        //$title = $request->$title;
+
+        Delivery::create([
+            'nameDelivery' => $request->nameDelivery,
+            'addressDelivery' => $request->addressDelivery
+        ]);
+
+        return redirect()
+                ->route('pages.deliveries.index')
+                ->with('success', 'Livreur/servant ajouté avec succès');
     }
 
     /**
@@ -48,6 +72,9 @@ class DeliveryController extends Controller
     public function show(Delivery $delivery)
     {
         //
+        return view('pages.deliveries.show')->with([
+            'delivery' => $delivery,
+        ]);
     }
 
     /**
@@ -59,6 +86,9 @@ class DeliveryController extends Controller
     public function edit(Delivery $delivery)
     {
         //
+        return view('pages.deliveries.edit')->with([
+            'delivery' => $delivery,
+        ]);
     }
 
     /**
@@ -71,6 +101,21 @@ class DeliveryController extends Controller
     public function update(UpdateDeliveryRequest $request, Delivery $delivery)
     {
         //
+        $request->validate($request, [
+            'nameDelivery' => 'required',
+            'addressDelivery' => 'required'
+        ]);
+
+        //$title = $request->$title;
+
+        $delivery->update([
+            'nameDelivery' => $request->nameCategory,
+            'addressDelivery' => $request->addressDelivery,
+        ]);
+
+        return redirect()
+                ->route('pages.deliveries.index')
+                ->with('success', 'Serveur/livreur mis à jour avec succès');
     }
 
     /**
@@ -82,5 +127,9 @@ class DeliveryController extends Controller
     public function destroy(Delivery $delivery)
     {
         //
+        $delivery->delete();
+        return redirect()
+                ->route('pages.deliveries.index')
+                ->with('success', 'serveur/livreur supprimé avec succès');
     }
 }
