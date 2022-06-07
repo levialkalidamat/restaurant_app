@@ -26,12 +26,10 @@ class DatabaseSeeder extends Seeder
         
         //
 
-        $this->call(Admin::class);
-        /*$this->call([
+        
+        $this->call([
             Admin::class,
-            PlatSeeder::class,
-            CategorySeeder::class
-        ]);*/
+        ]);
         
         
     }
