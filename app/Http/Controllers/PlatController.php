@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Plat;
+use App\Models\Category;
 use App\Http\Requests\StorePlatRequest;
 use App\Http\Requests\UpdatePlatRequest;
 
@@ -35,7 +36,8 @@ class PlatController extends Controller
     public function create()
     {
         //
-        return view('pages.plats.create')-with([
+        
+        return view('pages.plats.create')->with([
             'categories' => Category::all(),
         ]);
     }
@@ -49,25 +51,25 @@ class PlatController extends Controller
     public function store(StorePlatRequest $request)
     {
         //
-        $request->validate($request, [
+        $this->validate($request, [
             'namePlat' => 'required',
             'descriptionPlat' => 'required',
             'imagePlat' => ['required', 'image', 'mimes:png,jpeg,jpg', 'max:2048'],
-            'PricePlat' => ['required', 'numeric'],
+            'pricePlat' => ['required', 'numeric'],
             'category_id' => ['required', 'numeric']
 
         ]);
 
         if($request->hasFile('imagePlat'))
         {
-            $file = $request->namePlat;
-            $imageName = 'images/plats'.time().'_'.$file->getClientOriginalName();
-            $file->move(public_path('images/plat'), $imageName);
+            $file = $request->file('imagePlat');//$file = $request->namePlat;
+            $imageName = time().'_'.$file->getClientOriginalName();//$imageName = 'images/plats'.time().'_'.$file->getClientOriginalName();
+            $file->move(public_path('images/plats'), $imageName);
             
             Plat::create([
                 'namePlat' => $request->namePlat,
                 'descriptionPlat' => $request->descriptionPlat,
-                'PricePlat' => $request->PricePlat,
+                'pricePlat' => $request->pricePlat,
                 'category_id' => $request->category_id,
                 'imagePlat' => $imageName
             ]);
@@ -75,7 +77,7 @@ class PlatController extends Controller
         //$title = $request->$title;
 
         return redirect()
-                ->route('pages.plats.index')
+                ->route('plats.index')
                 ->with('success', 'plats ajouté avec succès dans la table');
     }
 
@@ -89,7 +91,7 @@ class PlatController extends Controller
     {
         //
         return view('pages.plats.show')->with([
-            'plat' => $plat,
+            'plats' => $plat,
         ]);
     }
 
@@ -103,7 +105,8 @@ class PlatController extends Controller
     {
         //
         return view('pages.plats.edit')->with([
-            'plat' => $plat,
+            "categories" => Category::all(),
+            'plats' => $plat,
         ]);
     }
 
@@ -117,33 +120,57 @@ class PlatController extends Controller
     public function update(UpdatePlatRequest $request, Plat $plat)
     {
         //
-        $request->validate($request, [
+        
+        $this->validate($request, [
             'namePlat' => 'required',
-            'descriptionPlat' => 'required',
+            'descriptionPlat' => ['required', 'min:8'],
             'imagePlat' => ['image', 'mimes:png,jpeg,jpg', 'max:2048'],
-            'PricePlat' => ['required', 'numeric'],
+            'pricePlat' => ['required', 'numeric'],
             'category_id' => ['required', 'numeric']
 
         ]);
-
+        
+        //Stockage des données
         if($request->hasFile('imagePlat'))
         {
-            $file = $request->namePlat;
-            $imageName = 'images/plats'.time().'_'.$file->getClientOriginalName();
-            $file->move(public_path('images/plat'), $imageName);
-            $plat->imagePlat = $imageName;
+            //unlink(public_path('images/plats/' . $plat->imagePlat));
+           
+            //dd($request->imagePlat);
+            $file = $request->file('imagePlat');// $file = $request->namePlat;
+            //dd($file);
+            $imageName = time().'_'.$file->getClientOriginalName();//$imageName = 'images/plat'.time().'_'.$file->getClientOriginalName();
+            $file->move(public_path('images/plats'), $imageName);
+            //$plat->imagePlat = $imageName;
+            
+            $plat->update([
+                "namePlat" => $request->namePlat,
+                "descriptionPlat" =>  $request->descriptionPlat,
+                "pricePlat" =>  $request->pricePlat,
+                "imagePlat" =>  $plat->imagePlat,//$imageName,
+                "category_id" =>  $request->category_id,
+            ]);
+            
+            //Redirection du user
+            return redirect()
+            ->route('plats.index')
+            ->with(['success' => 'plats mise à avec succès dans la table']);
+
+
         }
-            $plat::update([
+        /*else
+        {
+            $plat->update([
                 'namePlat' => $request->namePlat,
                 'descriptionPlat' => $request->descriptionPlat,
-                'PricePlat' => $request->PricePlat,
+                'pricePlat' => $request->pricePlat,
                 'category_id' => $request->category_id,
-                'imagePlat' => $plat ->imagePlat
             ]);
-
+            dd("mise à jour sans image reussi");
+            Redirection du user
             return redirect()
-            ->route('pages.plats.index')
-            ->with('success', 'plats mise à avec succès dans la table');
+            ->route('plats.index')
+            ->with(['success' => 'plats mise à avec succès dans la table']);
+        }*/
 
         
     }
@@ -159,7 +186,7 @@ class PlatController extends Controller
         //
         $plat->delete();
         return redirect()
-                ->route('pages.plats.index')
-                ->with('success', 'plat supprimé avec succès');
+                ->route('plats.index')
+                ->with(['success' => 'plat supprimé avec succès']);
     }
 }

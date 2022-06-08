@@ -15,18 +15,18 @@
                                 <h3 class="text-secondary border-bottom mb-3 p-2">
                                     <i class="fas fa-plus"></i> Ajouter un menu
                                 </h3>
-                                <form action="{{ route("menus.store") }}" method="post" enctype="multipart/form-data">
+                                <form action="{{ route('plats.store') }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group">
                                         <input
-                                            type="text" name="title" id="title"
+                                            type="text" name="namePlat" id="title"
                                             class="form-control"
                                             placeholder="Titre"
                                         >
                                     </div>
                                     <div class="form-group">
                                         <textarea
-                                            name="description" id="description"
+                                            name="descriptionPlat" id="description"
                                             rows="5"
                                             cols="30"
                                             class="form-control"
@@ -40,7 +40,7 @@
                                             </div>
                                         </div>
                                         <input type="number"
-                                            name="price"
+                                            name="pricePlat"
                                             class="form-control"
                                             placeholder="Prix"
                                         >
@@ -58,7 +58,7 @@
                                         </div>
                                         <div class="custom-file">
                                             <input type="file"
-                                                name="image"
+                                                name="imagePlat"
                                                 class="custom-file-input"
                                             >
                                             <label class="custom-file-label">
@@ -71,7 +71,7 @@
                                             <option value="" selected disabled>Choisir une catégorie</option>
                                             @foreach ($categories as $category)
                                                 <option value="{{ $category->id }}">
-                                                    {{ $category->title }}
+                                                    {{ $category->nameCategory }}
                                                 </option>
                                             @endforeach
                                         </select>

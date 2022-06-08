@@ -13,25 +13,25 @@
                             </div>
                             <div class="col-md-8">
                                 <h3 class="text-secondary border-bottom mb-3 p-2">
-                                    <i class="fas fa-plus"></i> Modifier le sérveur {{ $servant->name }}
+                                    <i class="fas fa-plus"></i> Modifier le sérveur {{ $deliveries->nameDelivery }}
                                 </h3>
-                                <form action="{{ route("servants.update",$servant->id) }}" method="post">
+                                <form action="{{ route('delivery.update', $deliveries->id) }}" method="post">
                                     @csrf
                                     @method("PUT")
                                     <div class="form-group">
                                         <input
-                                            type="text" name="name" id="name"
+                                            type="text" name="nameDelivery" id="name"
                                             class="form-control"
                                             placeholder="Nom & Prénom"
-                                            value="{{ $servant->name }}"
+                                            value="{{ $deliveries->nameDelivery }}"
                                         >
                                     </div>
                                     <div class="form-group">
                                         <input
-                                            type="text" name="address" id="address"
+                                            type="text" name="addressDelivery" id="address"
                                             class="form-control"
                                             placeholder="Addresse"
-                                            value="{{ $servant->address }}"
+                                            value="{{ $deliveries->addressDelivery }}"
                                         >
                                     </div>
                                     <div class="form-group">

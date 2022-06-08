@@ -31,7 +31,7 @@ class Plat extends Model
 
     public function getRouteKeyName()
     {
-        return "nameCategory";
+        return "namePlat";
     }
 
 }

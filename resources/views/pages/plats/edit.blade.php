@@ -13,27 +13,27 @@
                             </div>
                             <div class="col-md-8">
                                 <h3 class="text-secondary border-bottom mb-3 p-2">
-                                    <i class="fas fa-plus"></i> Modifier le menu {{ $menu->title }}
+                                    <i class="fas fa-plus"></i> Modifier le menu {{ $plats->namePlat }}
                                 </h3>
-                                <form action="{{ route("menus.update",$menu->slug) }}" method="post" enctype="multipart/form-data">
+                                <form action="{{ route('plats.update', $plats->namePlat) }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     @method("PUT")
                                     <div class="form-group">
                                         <input
-                                            type="text" name="title" id="title"
+                                            type="text" name="namePlat" id="title"
                                             class="form-control"
                                             placeholder="Titre"
-                                            value="{{ $menu->title }}"
+                                            value="{{ $plats->namePlat }}"
                                         >
                                     </div>
                                     <div class="form-group">
                                         <textarea
-                                            name="description" id="description"
+                                            name="descriptionPlat" id="description"
                                             rows="5"
                                             cols="30"
                                             class="form-control"
                                             placeholder="Description"
-                                        >{{ $menu->description }}</textarea>
+                                        >{{ $plats->descriptionPlat }}</textarea>
                                     </div>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
@@ -41,11 +41,12 @@
                                                 $
                                             </div>
                                         </div>
+                                        
                                         <input type="number"
-                                            name="price"
+                                            name="pricePlat" 
                                             class="form-control"
                                             placeholder="Prix"
-                                            value="{{ $menu->price }}"
+                                            value="{{ $plats->pricePlat }}"
                                         >
                                         <div class="input-group-append">
                                             <div class="input-group-text">
@@ -54,11 +55,11 @@
                                         </div>
                                     </div>
                                     <div class="my-2">
-                                        <img src="{{ asset("images/menus/".$menu->image) }}"
+                                        <img src="{{ asset('images/plats/'.$plats->imagePlat) }}"
                                             width="200"
                                             height="200"
                                             class="img-fluid"
-                                            alt="{{ $menu->title }}">
+                                            alt="{{ $plats->namePlat }}">
                                     </div>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
@@ -68,9 +69,8 @@
                                         </div>
                                         <div class="custom-file">
                                             <input type="file"
-                                                name="image"
-                                                class="custom-file-input"
-                                            >
+                                                name="imagePlat"
+                                                class="custom-file-input">
                                             <label class="custom-file-label">
                                                 2mg max
                                             </label>
@@ -81,9 +81,9 @@
                                             <option value="" selected disabled>Choisir une catégorie</option>
                                             @foreach ($categories as $category)
                                                 <option
-                                                    {{ $category->id === $menu->category->id ? "selected" : ""}}
+                                                    {{ $category->id === $plats->category->id ? "selected" : ""}}
                                                     value="{{ $category->id }}">
-                                                    {{ $category->title }}
+                                                    {{ $category->nameCategory }}
                                                 </option>
                                             @endforeach
                                         </select>

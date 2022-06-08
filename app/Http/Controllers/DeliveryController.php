@@ -109,7 +109,7 @@ class DeliveryController extends Controller
         //$title = $request->$title;
 
         $delivery->update([
-            'nameDelivery' => $request->nameCategory,
+            'nameDelivery' => $request->nameDelivery,
             'addressDelivery' => $request->addressDelivery,
         ]);
 

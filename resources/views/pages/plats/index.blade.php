@@ -16,7 +16,7 @@
                                     <h3 class="text-secondary">
                                         <i class="fas fa-clipboard-list"></i> Menu
                                     </h3>
-                                    <a href="{{ route("menus.create") }}" class="btn btn-primary">
+                                    <a href="{{ route('plats.create') }}" class="btn btn-primary">
                                         <i class="fas fa-plus fa-x2"></i>
                                     </a>
                                 </div>
@@ -33,41 +33,40 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($menus as $menu)
+                                        @foreach ($plats as $plat)
                                             <tr>
                                                 <td>
-                                                    {{ $menu->id }}
+                                                    {{ $plat->id }}
                                                 </td>
                                                 <td>
-                                                    {{ $menu->title }}
+                                                    {{ $plat->namePlat }}
                                                 </td>
                                                 <td>
-                                                    {{ substr($menu->description,0,100)}}
+                                                    {{ substr($plat->descriptionPlat,0,100)}}
                                                 </td>
                                                 <td>
-                                                    {{ $menu->price}} DH
+                                                    {{ $plat->pricePlat}} DH
                                                 </td>
                                                 <td>
-                                                    {{ $menu->category->title}}
+                                                    {{ $plat->category->nameCategory }}
                                                 </td>
                                                 <td>
-                                                    <img src="{{ asset("images/menus/". $menu->image) }}" alt="{{ $menu->title}}"
+                                                    <img src="{{ asset('images/plats/'. $plat->imagePlat) }}" alt="{{ $plat->namePlat}}"
                                                         class="fluid rounded" width="60" height="60"
                                                     >
                                                 </td>
                                                 <td class="d-flex flex-row justify-content-center align-items-center">
-                                                    <a href="{{ route("menus.edit",$menu->slug) }}" class="btn btn-warning mr-1">
+                                                    <a href="{{ route('plats.edit', $plat->namePlat) }}" class="btn btn-warning mr-1">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
-                                                    <form id="{{ $menu->id }}" action="{{ route("menus.destroy",$menu->slug) }}" method="post">
+                                                    <form id="{{ $plat->id }}" action="{{ route('plats.destroy', $plat->namePlat) }}" enctype="multipart/form-data" method="post" >
                                                         @csrf
                                                         @method("DELETE")
                                                         <button
                                                             onclick="
                                                                 event.preventDefault();
-                                                                if(confirm('Voulez vous supprimer le menu {{ $menu->title }} ?'))
-                                                                document.getElementById({{ $menu->id }}).submit()
-                                                            "
+                                                                if(confirm('Voulez vous supprimer le menu {{ $plat->namePlat }} ?'))
+                                                                document.getElementById({{ $plat->id }}).submit()"
                                                             class="btn btn-danger">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
@@ -78,7 +77,7 @@
                                     </tbody>
                                 </table>
                                 <div class="my-3 d-flex justify-content-center align-items-center">
-                                    {{ $menus->links() }}
+                                    {{ $plats->links() }}
                                 </div>
                             </div>
                         </div>
