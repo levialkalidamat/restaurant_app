@@ -1,17 +1,37 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    You're logged in!
+@section('title', config('app.name').' | Dashboard')
+
+@section('content')
+    <!--Ajouter contient boostrap-->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-4 d-flex flex-column align-items-center justify-content-center">
+                            <i class="fa fa-cog fa-5x text-danger"></i>
+                            <a href="{{ route('categories.index') }}" class="font-weight-bold btn btn-link">
+                                Gérer
+                            </a>
+                        </div>
+                        <div class="col-sm-4 d-flex flex-column align-items-center justify-content-center">
+                            <i class="fa fa-shopping-bag fa-5x text-primary"></i>
+                            <a href="#" class="font-weight-bold btn btn-link">
+                                Ventes
+                            </a>
+                        </div>
+                        <div class="col-sm-4 d-flex flex-column align-items-center justify-content-center">
+                            <i class="fa fa-clipboard-list fa-5x text-success"></i>
+                            <a href="#" class="font-weight-bold btn btn-link">
+                                Rapports
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</x-app-layout>
+</div>
+@endsection

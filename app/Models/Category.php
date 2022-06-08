@@ -18,8 +18,8 @@ class Category extends Model
         return this->hasMany(Plat::class);
     }
 
-    public function getRouteKey()
+    public function getRouteKeyName()
     {
-        return "contenue";
+        return "nameCategory";
     }
 }

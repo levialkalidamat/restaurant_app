@@ -43,7 +43,7 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        $request->validate($request, [
+        $this->validate($request, [
             'nameCategory' => 'required',
         ]);
 
@@ -54,8 +54,8 @@ class CategoryController extends Controller
         ]);
 
         return redirect()
-                ->route('pages.categories.index')
-                ->with('success', 'catégories ajouté avec succès');
+                ->route('categories.index')
+                ->with(['success' => 'catégories ajouté avec succès']);//->with('success', 'catégories ajouté avec succès');
     }
 
     /**
@@ -93,7 +93,7 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $request->validate($request, [
+        $this->validate($request, [
             'nameCategory' => 'required',
         ]);
 
@@ -104,8 +104,8 @@ class CategoryController extends Controller
         ]);
 
         return redirect()
-                ->route('pages.categories.index')
-                ->with('success', 'catégories modifié avec succès');
+                ->route('categories.index')
+                ->with(['success' => 'catégories modifié avec succès',]);
     }
 
     /**
@@ -118,7 +118,7 @@ class CategoryController extends Controller
     {
         $category->delete();
         return redirect()
-                ->route('pages.categories.index')
+                ->route('categories.index')
                 ->with('success', 'catégories supprimé avec succès');
     }
 }

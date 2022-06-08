@@ -29,9 +29,9 @@ class Plat extends Model
         return $this->belongsToMany(Vente::class);
     }
 
-    public function getRouteKey()
+    public function getRouteKeyName()
     {
-        return "contenue";
+        return "nameCategory";
     }
 
 }

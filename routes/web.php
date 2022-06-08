@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PlatController;
+use App\Http\Controllers\TableController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DeliveryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,15 +30,15 @@ Route::get("/menu", function(){
 })->name('base_menu');
 
 //Gestion 
-Route::resource('categories', 'CategoryController');
-Route::resource('plats', 'PlatController');
-Route::resource('delivery', 'DeliveryController');
-Route::resource('tables', 'TablesController');
+Route::resource('/categories', CategoryController::class);
+Route::resource('/plats', PlatController::class);
+Route::resource('/delivery', DeliveryController::class);
+Route::resource('/tables', TableController::class);
 
 /*Route::get('/', function () {
     return view('welcome');
 });*/
-s
+
 /*Route::get('/test', function(){
     return view('layouts.base');
 });*/

@@ -48,7 +48,7 @@ class TableController extends Controller
     public function store(StoreTableRequest $request)
     {
         //
-        $request->validate($request, [
+        $this->validate($request, [
             'nameTable' => 'required',
             'statusTable' => 'required|boolean',
         ]);
@@ -61,7 +61,7 @@ class TableController extends Controller
         ]);
 
         return redirect()
-                ->route('pages.tables.index')
+                ->route('tables.index')
                 ->with('success', 'données ajouté avec succès dans la table');
     }
 
@@ -103,7 +103,7 @@ class TableController extends Controller
     public function update(UpdateTableRequest $request, Table $table)
     {
         //
-        $request->validate($request, [
+        $this->validate($request, [
             'nameTable'  => 'required',
             'statusTable' => 'required',
         ]);
@@ -116,7 +116,7 @@ class TableController extends Controller
         ]);
 
         return redirect()
-                ->route('pages.tables.index')
+                ->route('tables.index')
                 ->with('success', 'tables mise à jour avec succès');
     }
 
@@ -131,7 +131,7 @@ class TableController extends Controller
         //
         $table->delete();
         return redirect()
-                ->route('pages.tables.index')
+                ->route('tables.index')
                 ->with('success', 'table supprimé avec succès');
     }
 }

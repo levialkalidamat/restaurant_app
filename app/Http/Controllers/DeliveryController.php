@@ -46,7 +46,7 @@ class DeliveryController extends Controller
     public function store(StoreDeliveryRequest $request)
     {
         //
-        $request->validate($request, [
+        $this->validate($request, [
             'nameDelivery' => 'required',
             'addressDelivery' => 'required',
         ]);
@@ -59,7 +59,7 @@ class DeliveryController extends Controller
         ]);
 
         return redirect()
-                ->route('pages.deliveries.index')
+                ->route('delivery.index')
                 ->with('success', 'Livreur/servant ajouté avec succès');
     }
 
@@ -73,7 +73,7 @@ class DeliveryController extends Controller
     {
         //
         return view('pages.deliveries.show')->with([
-            'delivery' => $delivery,
+            'deliveries' => $delivery,
         ]);
     }
 
@@ -87,7 +87,7 @@ class DeliveryController extends Controller
     {
         //
         return view('pages.deliveries.edit')->with([
-            'delivery' => $delivery,
+            'deliveries' => $delivery,
         ]);
     }
 
@@ -101,7 +101,7 @@ class DeliveryController extends Controller
     public function update(UpdateDeliveryRequest $request, Delivery $delivery)
     {
         //
-        $request->validate($request, [
+        $this->validate($request, [
             'nameDelivery' => 'required',
             'addressDelivery' => 'required'
         ]);
@@ -114,7 +114,7 @@ class DeliveryController extends Controller
         ]);
 
         return redirect()
-                ->route('pages.deliveries.index')
+                ->route('delivery.index')
                 ->with('success', 'Serveur/livreur mis à jour avec succès');
     }
 
@@ -129,7 +129,7 @@ class DeliveryController extends Controller
         //
         $delivery->delete();
         return redirect()
-                ->route('pages.deliveries.index')
+                ->route('delivery.index')
                 ->with('success', 'serveur/livreur supprimé avec succès');
     }
 }
